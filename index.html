@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<title>بازی کلیک</title>
+<style>
+body{
+    margin:0;
+    background:#222;
+    color:white;
+    text-align:center;
+    font-family:sans-serif;
+}
+#box{
+    width:100px;
+    height:100px;
+    background:red;
+    position:absolute;
+    top:200px;
+    left:100px;
+    border-radius:15px;
+}
+</style>
+</head>
+<body>
+
+<h1>بازی کلیک</h1>
+<h2>امتیاز: <span id="score">0</span></h2>
+
+<div id="box"></div>
+
+<script>
+let score=0;
+let box=document.getElementById("box");
+
+box.onclick=function(){
+    score++;
+    document.getElementById("score").innerText=score;
+
+    box.style.left=Math.random()*(window.innerWidth-100)+"px";
+    box.style.top=Math.random()*(window.innerHeight-100)+"px";
+};
+</script>
+
+</body>
+</html>
