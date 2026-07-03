@@ -2,45 +2,52 @@
 <html lang="fa">
 <head>
 <meta charset="UTF-8">
-<title>بازی کلیک</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بازی کلیک حرفه‌ای</title>
+
 <style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
 body{
-    margin:0;
-    background:#222;
-    color:white;
-    text-align:center;
-    font-family:sans-serif;
+background:#111;
+color:white;
+font-family:tahoma;
+overflow:hidden;
+text-align:center;
 }
-#box{
-    width:100px;
-    height:100px;
-    background:red;
-    position:absolute;
-    top:200px;
-    left:100px;
-    border-radius:15px;
+
+#menu{
+position:absolute;
+width:100%;
+top:35%;
 }
-</style>
-</head>
-<body>
 
-<h1>بازی کلیک</h1>
-<h2>امتیاز: <span id="score">0</span></h2>
+button{
+padding:15px 35px;
+font-size:22px;
+border:none;
+border-radius:10px;
+background:#00c853;
+color:white;
+cursor:pointer;
+}
 
-<div id="box"></div>
+button:hover{
+background:#00a844;
+}
 
-<script>
-let score=0;
-let box=document.getElementById("box");
+#score{
+position:absolute;
+top:15px;
+left:15px;
+font-size:28px;
+}
 
-box.onclick=function(){
-    score++;
-    document.getElementById("score").innerText=score;
-
-    box.style.left=Math.random()*(window.innerWidth-100)+"px";
-    box.style.top=Math.random()*(window.innerHeight-100)+"px";
-};
-</script>
-
-</body>
-</html>
+#life{
+position:absolute;
+top:15px;
+right:15px
