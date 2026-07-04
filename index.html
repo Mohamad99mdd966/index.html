@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>بازی کلیک حرفه‌ای</title>
+<title>بازی موش و گربه</title>
 
 <style>
 body{
@@ -49,8 +49,8 @@ button{
     position:absolute;
     width:60px;
     height:60px;
-    background:red;
     border-radius:50%;
+    cursor:pointer;
 }
 </style>
 </head>
@@ -58,8 +58,8 @@ button{
 <body>
 
 <div id="menu">
-    <h1>🎮 بازی کلیک</h1>
-    <button onclick="startGame()">شروع</button>
+    <h1>🐭 موش و گربه</h1>
+    <button onclick="startGame()">شروع بازی</button>
 </div>
 
 <div id="score">امتیاز: 0</div>
@@ -70,11 +70,13 @@ let life = 3;
 let running = false;
 let spawnTimer;
 
+// آپدیت امتیاز و جون
 function updateUI(){
     document.getElementById("score").innerText = "امتیاز: " + score;
     document.getElementById("life").innerText = "❤️ " + life;
 }
 
+// شروع بازی
 function startGame(){
     score = 0;
     life = 3;
@@ -83,40 +85,70 @@ function startGame(){
     updateUI();
     document.getElementById("menu").style.display = "none";
 
-    spawnTimer = setInterval(spawnTarget, 900);
+    spawnTimer = setInterval(spawnObject, 800);
 }
 
-function spawnTarget(){
+// ساخت موش / گربه / تور
+function spawnObject(){
     if(!running) return;
 
-    const t = document.createElement("div");
-    t.className = "target";
+    const obj = document.createElement("div");
 
-    t.style.left = Math.random() * (window.innerWidth - 60) + "px";
-    t.style.top = Math.random() * (window.innerHeight - 60) + "px";
+    let r = Math.random();
 
-    t.onclick = () => {
+    // تعیین نوع شیء
+    if(r < 0.6){
+        obj.dataset.type = "mouse";
+        obj.style.background = "gray";
+    }
+    else if(r < 0.9){
+        obj.dataset.type = "cat";
+        obj.style.background = "orange";
+    }
+    else{
+        obj.dataset.type = "trap";
+        obj.style.background = "black";
+    }
+
+    obj.className = "target";
+
+    // جای تصادفی
+    obj.style.left = Math.random() * (window.innerWidth - 60) + "px";
+    obj.style.top = Math.random() * (window.innerHeight - 60) + "px";
+
+    // کلیک روی هدف
+    obj.onclick = () => {
         if(!running) return;
-        score++;
+
+        if(obj.dataset.type === "mouse"){
+            score++;
+        }
+        else if(obj.dataset.type === "cat"){
+            life--;
+        }
+        else if(obj.dataset.type === "trap"){
+            life -= 2;
+        }
+
         updateUI();
-        t.remove();
+        obj.remove();
+
+        if(life <= 0){
+            gameOver();
+        }
     };
 
-    document.body.appendChild(t);
+    document.body.appendChild(obj);
 
+    // اگر کلیک نشد حذف شود
     setTimeout(() => {
-        if(document.body.contains(t)){
-            t.remove();
-            life--;
-            updateUI();
-
-            if(life <= 0){
-                gameOver();
-            }
+        if(document.body.contains(obj)){
+            obj.remove();
         }
     }, 1200);
 }
 
+// پایان بازی
 function gameOver(){
     running = false;
     clearInterval(spawnTimer);
